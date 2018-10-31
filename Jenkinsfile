@@ -1,33 +1,35 @@
 #!groovy
-def checkSkipStage = true
+def checkSkipStage = true;
 
 stage('build') {
     if (checkSkipStage) {
-        skipStage('build')
+        skipStage('build');
     }
-    echo 'build'
+    echo 'build';
 }
 stage('test') {
     if (checkSkipStage) {
-        skipStage('test')
+        skipStage('test');
     }
-    echo 'test' 
+    echo 'test';
 }
 stage('deploy') {
     if (checkSkipStage) {
-        skipStage('deploy')
+        skipStage('deploy');
     }
-    input message:'Approve deployment?'
-    echo 'deploy'
+    input message:'Approve deployment?';
+    echo 'deploy';
 }
 
 def skipStage(stageName) {
+    stageName == null ? 'build' : stageName;
     if (env.CHECK_POINT == stageName) {
         checkSkipStage = false;
-        try {
-            timeout(time: 15, unit: 'NANOSECONDS');
-        } catch (timeout) {
+        return;
+    }
+    try {
+        timeout(time: 1, unit: 'NANOSECONDS');
+    } catch (timeout) {
 
-        }
     }
 }
