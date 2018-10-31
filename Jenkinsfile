@@ -5,19 +5,40 @@ node {
     sh 'env'
     stage('build') {
         if (checkSkipStage) {
-            skipStage('build');
+            if (skipStage('build')) {
+                currentBuild.result = 'ABORTED';
+                try {
+                    timeout(time: 1, unit: 'NANOSECONDS');
+                } catch (timeout) {
+
+                }
+            }
         }
         echo 'build';
     }
     stage('test') {
         if (checkSkipStage) {
-            skipStage('test');
+            if (skipStage('test')) {
+                currentBuild.result = 'ABORTED';
+                try {
+                    timeout(time: 1, unit: 'NANOSECONDS');
+                } catch (timeout) {
+
+                }
+            }
         }
         echo 'test';
     }
     stage('deploy') {
         if (checkSkipStage) {
-            skipStage('deploy');
+            if (skipStage('deploy')) {
+                currentBuild.result = 'ABORTED';
+                try {
+                    timeout(time: 1, unit: 'NANOSECONDS');
+                } catch (timeout) {
+
+                }
+            }
         }
         input message:'Approve deployment?';
         echo 'deploy';
@@ -26,15 +47,9 @@ node {
 
 def skipStage(stageName) {
     stageName = stageName == null ? 'build' : stageName;
-    echo env.CHECK_POINT;
     if (env.CHECK_POINT == stageName) {
         checkSkipStage = false;
-        return;
+        return false;
     }
-    currentBuild.result = 'ABORTED';
-    try {
-        timeout(time: 1, unit: 'NANOSECONDS');
-    } catch (timeout) {
-
-    }
+    return true;
 }
