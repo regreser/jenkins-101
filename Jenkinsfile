@@ -1,6 +1,6 @@
 #!groovy
 def checkSkipStage = true;
-def checkPoint = ${CHECK_POINT};
+def checkPoint = env.CHECK_POINT;
 
 node {
     sh 'env'
