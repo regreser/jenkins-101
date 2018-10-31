@@ -1,6 +1,8 @@
 #!groovy
 def checkSkipStage = true;
 
+echo env;
+
 stage('build') {
     if (checkSkipStage) {
         skipStage('build');
@@ -23,6 +25,7 @@ stage('deploy') {
 
 def skipStage(stageName) {
     stageName == null ? 'build' : stageName;
+    echo stageName;
     if (env.CHECK_POINT == stageName) {
         checkSkipStage = false;
         return;
