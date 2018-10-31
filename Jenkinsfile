@@ -2,33 +2,39 @@ pipeline {
     agent { docker { image 'maven:3.3.3' } }
 
     environment {
-        DISABLE_AUTH = 'true'
-        DB_ENGINE    = 'sqlite'
+        
     }
 
     stages {
         stage('Build') {
             steps {
-                try {
-                    userInput = input(
-                        id: 'Proceed1', message: 'Was this successful?', parameters: [
-                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
-                        ])
-                } catch(err) { // input false
-                    def user = err.getCauses()[0].getUser()
-                    userInput = false
-                    echo "Aborted by: [${user}]"
-                }
-                if (userInput == true) {
-                    // do something
-                    echo "this was successful"
-                } else {
-                    // do something else
-                    echo "this was not successful"
-                    currentBuild.result = 'FAILURE'
-                } 
                 sh 'printenv'
             }
         }
+        stage('Test') {
+            userInput()
+            echo "test stage"
+        }
     }
+}
+
+define userInput() {
+    try {
+        userInput = input(
+            id: 'Proceed1', message: 'Was this successful?', parameters: [
+            [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+            ])
+    } catch(err) { // input false
+        def user = err.getCauses()[0].getUser()
+        userInput = false
+        echo "Aborted by: [${user}]"
+    }
+    if (userInput == true) {
+        // do something
+        echo "this was successful"
+    } else {
+        // do something else
+        echo "this was not successful"
+        currentBuild.result = 'FAILURE'
+    } 
 }
