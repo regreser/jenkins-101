@@ -9,31 +9,26 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                try {
+                    userInput = input(
+                        id: 'Proceed1', message: 'Was this successful?', parameters: [
+                        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+                        ])
+                } catch(err) { // input false
+                    def user = err.getCauses()[0].getUser()
+                    userInput = false
+                    echo "Aborted by: [${user}]"
+                }
+                if (userInput == true) {
+                    // do something
+                    echo "this was successful"
+                } else {
+                    // do something else
+                    echo "this was not successful"
+                    currentBuild.result = 'FAILURE'
+                } 
                 sh 'printenv'
             }
         }
     }
-}
-
-def userInput
-try {
-    userInput = input(
-        id: 'Proceed1', message: 'Was this successful?', parameters: [
-        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
-        ])
-} catch(err) { // input false
-    def user = err.getCauses()[0].getUser()
-    userInput = false
-    echo "Aborted by: [${user}]"
-}
-
-node {
-    if (userInput == true) {
-        // do something
-        echo "this was successful"
-    } else {
-        // do something else
-        echo "this was not successful"
-        currentBuild.result = 'FAILURE'
-    } 
 }
