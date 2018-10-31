@@ -1,10 +1,6 @@
 pipeline {
     agent { docker { image 'maven:3.3.3' } }
 
-    environment {
-        
-    }
-
     stages {
         stage('Build') {
             steps {
@@ -12,13 +8,11 @@ pipeline {
             }
         }
         stage('Test') {
-            userInput()
-            echo "test stage"
+            echo "test"
         }
     }
 }
 
-define userInput() {
     try {
         userInput = input(
             id: 'Proceed1', message: 'Was this successful?', parameters: [
@@ -37,4 +31,3 @@ define userInput() {
         echo "this was not successful"
         currentBuild.result = 'FAILURE'
     } 
-}
