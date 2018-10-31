@@ -1,3 +1,20 @@
+pipeline {
+    agent { docker { image 'maven:3.3.3' } }
+
+    environment {
+        DISABLE_AUTH = 'true'
+        DB_ENGINE    = 'sqlite'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'printenv'
+            }
+        }
+    }
+}
+
 def userInput
 try {
     userInput = input(
