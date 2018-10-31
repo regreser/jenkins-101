@@ -21,13 +21,13 @@ stage('deploy') {
     echo 'deploy'
 }
 
-skipStage(stageName) {
+def skipStage(stageName) {
     if (env.CHECK_POINT == stageName) {
         checkSkipStage = false;
         try {
             timeout(time: 15, unit: 'NANOSECONDS');
         } catch (timeout) {
-            
+
         }
     }
 }
