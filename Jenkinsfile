@@ -1,7 +1,7 @@
 #!groovy
 def checkSkipStage = true;
 
-echo env;
+sh 'env';
 
 stage('build') {
     if (checkSkipStage) {
