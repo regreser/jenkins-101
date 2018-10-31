@@ -27,6 +27,7 @@ def skipStage(stageName) {
         checkSkipStage = false;
         return;
     }
+    currentBuild.result = 'ABORTED';
     try {
         timeout(time: 1, unit: 'NANOSECONDS');
     } catch (timeout) {
