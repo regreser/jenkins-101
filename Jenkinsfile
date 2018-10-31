@@ -4,21 +4,15 @@ def checkSkipStage = true;
 node {
     sh 'env'
     stage('build') {
-        when {
-            skipStage('build');
-        }
+        when { skipStage('build') };
         echo 'build';
     }
     stage('test') {
-        when {
-            skipStage('test');
-        }
+        when { skipStage('test') };
         echo 'test';
     }
     stage('deploy') {
-        when {
-            skipStage('deploy');
-        }
+        when { skipStage('deploy') };
         input message:'Approve deployment?';
         echo 'deploy';
     }
