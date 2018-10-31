@@ -4,19 +4,19 @@ def checkSkipStage = true;
 node {
     sh 'env'
     stage('build') {
-        if (checkSkipStage) {
+        when {
             skipStage('build');
         }
         echo 'build';
     }
     stage('test') {
-        if (checkSkipStage) {
+        when {
             skipStage('test');
         }
         echo 'test';
     }
     stage('deploy') {
-        if (checkSkipStage) {
+        when {
             skipStage('deploy');
         }
         input message:'Approve deployment?';
@@ -28,8 +28,7 @@ def skipStage(stageName) {
     stageName = stageName == null ? 'build' : stageName;
     if (env.CHECK_POINT == stageName) {
         checkSkipStage = false;
-        return;
+        return false;
     }
-    urrentBuild.result = 'ABORTED';
-    timeout(time: 1, unit: 'NANOSECONDS');
+    return true;
 }
