@@ -3,8 +3,12 @@ def checkSkipStage = true;
 
 stage('build') {
     node {
-        if (checkSkipStage || !skipStage('build')) {
-            doBuild();
+        if (checkSkipStage) {
+            if (!skipStage('build')) {
+                doBuild();
+            } else {
+                markStageAsAbort();
+            }
         } else {
             markStageAsAbort();
         }
@@ -12,8 +16,12 @@ stage('build') {
 }
 stage('test') {
     node {
-        if (checkSkipStage || !skipStage('test')) {
-            doTest();
+        if (checkSkipStage) {
+            if (!skipStage('test')) {
+                doTest();
+            } else {
+                markStageAsAbort();
+            }
         } else {
             markStageAsAbort();
         }
@@ -21,8 +29,12 @@ stage('test') {
 }
 stage('deploy') {
     node {
-        if (checkSkipStage || !skipStage('deploy')) {
-            doDeploy();
+        if (checkSkipStage）{
+            if (!skipStage('deploy')) {
+                doDeploy();
+            } else {
+                markStageAsAbort();
+            }
         } else {
             markStageAsAbort();
         }
