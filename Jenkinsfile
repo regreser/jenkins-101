@@ -30,7 +30,7 @@ stage('deploy') {
 }
 
 def skipStage(stageName) {
-    if (env.CHECK_POINT == null && env.CHECK_POINT == stageName) {
+    if (env.CHECK_POINT == null || env.CHECK_POINT == stageName) {
         checkSkipStage = false;
         return false;
     }
