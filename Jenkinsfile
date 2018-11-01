@@ -1,11 +1,11 @@
 #!groovy
 def checkSkipStage = true;
 
-sh 'env'
 currentBuild.displayName = '#' + env.BUILD_NUMBER
 
 stage('build') {
     node {
+        sh 'env'
         if (checkSkipStage && !skipStage('build')) {
             doBuild();
         } else {
