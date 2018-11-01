@@ -3,9 +3,6 @@ def checkSkipStage = true;
 
 stage('build') {
     node {
-        echo "checkSkipStage: ${checkSkipStage}";
-        echo "skipStage: ${skipStage('build')}";
-        echo "!skipStage: ${!skipStage('build')}";
         if (checkSkipStage && !skipStage('build')) {
             doBuild();
         } else {
@@ -53,7 +50,6 @@ def doDeploy() {
 }
 
 def markStageAsAbort() {
-    timeout(time:1, unit:'NANOSECONDS') {
-        
-    }
+    // timeout(time:1, unit:'NANOSECONDS') {}
+    currentBuild.result = 'ABORT'
 }
