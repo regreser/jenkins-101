@@ -21,7 +21,7 @@ stage('test') {
 }
 stage('deploy') {
     node {
-        if (checkSkipStage && !skipStage('deploy')）{
+        if (checkSkipStage && !skipStage('deploy')) {
             doDeploy();
         } else {
             markStageAsAbort();
