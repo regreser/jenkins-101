@@ -20,6 +20,7 @@ stage('test') {
     }
 }
 stage('deploy') {
+    input 'Do you approve deployment?'
     node {
         if (checkSkipStage && !skipStage('deploy')) {
             doDeploy();
