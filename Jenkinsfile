@@ -5,6 +5,8 @@ stage('build') {
     node {
         if (checkSkipStage == false || !skipStage('build')) {
             doBuild();
+        } else {
+            markStageAsAbort();
         }
     }
 }
@@ -12,6 +14,8 @@ stage('test') {
     node {
         if (checkSkipStage == false || !skipStage('test')) {
             doTest();
+        } else {
+            markStageAsAbort();
         }
     }
 }
@@ -19,6 +23,8 @@ stage('deploy') {
     node {
         if (checkSkipStage == false || !skipStage('deploy')) {
             doDeploy();
+        } else {
+            markStageAsAbort();
         }
     }
 }
@@ -41,4 +47,10 @@ def doTest() {
 
 def doDeploy() {
     echo 'deploy';
+}
+
+def markStageAsAbort() {
+    timeout(time:1, unit:'NANOSECONDS') {
+        
+    }
 }
