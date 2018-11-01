@@ -3,9 +3,7 @@ def checkSkipStage = true;
 
 stage('build') {
     node {
-        echo "${checkSkipStage}";
-        echo "${!skipStage('build')}";
-        if (checkSkipStage == false || !skipStage('build')) {
+        if (checkSkipStage || !skipStage('build')) {
             doBuild();
         } else {
             markStageAsAbort();
@@ -14,7 +12,7 @@ stage('build') {
 }
 stage('test') {
     node {
-        if (checkSkipStage == false || !skipStage('test')) {
+        if (checkSkipStage || !skipStage('test')) {
             doTest();
         } else {
             markStageAsAbort();
@@ -23,7 +21,7 @@ stage('test') {
 }
 stage('deploy') {
     node {
-        if (checkSkipStage == false || !skipStage('deploy')) {
+        if (checkSkipStage || !skipStage('deploy')) {
             doDeploy();
         } else {
             markStageAsAbort();
