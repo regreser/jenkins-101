@@ -4,7 +4,7 @@ def checkSkipStage = true;
 stage('build') {
     node {
         echo "checkSkipStage: ${checkSkipStage}";
-        echo "!skipStage: ${skipStage('build')}";
+        echo "skipStage: ${skipStage('build')}";
         echo "!skipStage: ${!skipStage('build')}";
         if (checkSkipStage && !skipStage('build')) {
             doBuild();
@@ -33,7 +33,7 @@ stage('deploy') {
 }
 
 def skipStage(stageName) {
-    if (env.CHECK_POINT == null || env.CHECK_POINT == stageName) {
+    if (env.CHECK_POINT == "" || env.CHECK_POINT == stageName) {
         checkSkipStage = false;
         return false;
     }
