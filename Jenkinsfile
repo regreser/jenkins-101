@@ -1,28 +1,44 @@
 #!groovy
 def checkSkipStage = true;
 
-node {
-    sh 'env'
-    stage('build') {
-        when { skipStage('build') };
-        echo 'build';
+stage('build') {
+    node {
+        if (checkSkipStage == false || !skipStage('build')) {
+            doBuild();
+        }
     }
-    stage('test') {
-        when { skipStage('test') };
-        echo 'test';
+}
+stage('test') {
+    node {
+        if (checkSkipStage == false || !skipStage('test')) {
+            doTest();
+        }
     }
-    stage('deploy') {
-        when { skipStage('deploy') };
-        input message:'Approve deployment?';
-        echo 'deploy';
+}
+stage('deploy') {
+    node {
+        if (checkSkipStage == false || !skipStage('deploy')) {
+            doDeploy();
+        }
     }
 }
 
 def skipStage(stageName) {
-    stageName = stageName == null ? 'build' : stageName;
     if (env.CHECK_POINT == stageName) {
         checkSkipStage = false;
         return false;
     }
     return true;
+}
+
+def doBuild() {
+    echo 'build';
+}
+
+def doTest() {
+    echo 'test';
+}
+
+def doDeploy() {
+    echo 'deploy';
 }
