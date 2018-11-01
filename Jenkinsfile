@@ -50,6 +50,10 @@ def doDeploy() {
 }
 
 def markStageAsAbort() {
-    // timeout(time:1, unit:'NANOSECONDS') {}
-    currentBuild.result = 'ABORT'
+    try {
+        timeout(time:1, unit:'NANOSECONDS') {}
+    } catch(timeout) {
+
+    }
+    // currentBuild.result = 'ABORT'
 }
