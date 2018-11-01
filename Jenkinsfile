@@ -3,8 +3,8 @@ def checkSkipStage = true;
 
 stage('build') {
     node {
-        echo checkSkipStage;
-        echo !skipStage('build');
+        echo "${checkSkipStage}";
+        echo "${!skipStage('build')}";
         if (checkSkipStage == false || !skipStage('build')) {
             doBuild();
         } else {
