@@ -1,8 +1,8 @@
 #!groovy
 def checkSkipStage = true;
 
-currentBuild.displayName = '#' + env.BUILD_NUMBER
 env.BUILD_NUMBER = env.BUILD_NUMBER == '' ? env.BUILD_ID : env.BUILD_NUMBER
+currentBuild.displayName = '#' + env.BUILD_NUMBER
 
 stage('build') {
     node {
