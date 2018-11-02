@@ -1,7 +1,7 @@
 #!groovy
 def checkSkipStage = true;
 
-currentBuild.displayName = '#' + env.BUILD_NUMBER
+currentBuild.displayName = '#b' + env.BUILD_NUMBER
 
 stage('build') {
     node {
@@ -11,9 +11,10 @@ stage('build') {
         } else {
             markStageAsAbort();
         }
+        env.CHECK_POINT = 'test';
     }
-    env.CHECK_POINT = 'test';
 }
+
 stage('test') {
     node {
         if (checkSkipStage && !skipStage('test')) {
@@ -21,9 +22,10 @@ stage('test') {
         } else {
             markStageAsAbort();
         }
+        env.CHECK_POINT = 'deploy';
     }
-    env.CHECK_POINT = 'deploy';
 }
+
 stage('deploy') {
     input 'Do you approve deployment?'
     node {
