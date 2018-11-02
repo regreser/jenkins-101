@@ -1,7 +1,7 @@
 #!groovy
 def checkSkipStage = true;
 
-currentBuild.buildVariables.BUILD_NUMBER = env.BUILD_NUMBER == '' ? env.BUILD_ID : env.BUILD_NUMBER
+env.BUILD_NUMBER = env.BUILD_NUMBER == '' ? env.BUILD_ID : env.BUILD_NUMBER
 currentBuild.displayName = '#' + env.BUILD_NUMBER
 
 stage('build') {
@@ -12,7 +12,7 @@ stage('build') {
         } else {
             markStageAsAbort();
         }
-        currentBuild.buildVariables.CHECK_POINT = 'test';
+        env.CHECK_POINT = 'test';
     }
 }
 
@@ -23,7 +23,7 @@ stage('test') {
         } else {
             markStageAsAbort();
         }
-        currentBuild.buildVariables.CHECK_POINT = 'deploy';
+        env.CHECK_POINT = 'deploy';
     }
 }
 
