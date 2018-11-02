@@ -1,7 +1,8 @@
 #!groovy
 def checkSkipStage = true;
 
-currentBuild.displayName = '#b' + env.BUILD_NUMBER
+currentBuild.displayName = '#' + env.BUILD_NUMBER
+env.BUILD_NUMBER = env.BUILD_NUMBER == '' ? env.BUILD_ID : env.BUILD_NUMBER
 
 stage('build') {
     node {
@@ -38,7 +39,7 @@ stage('deploy') {
 }
 
 def skipStage(stageName) {
-    if (env.CHECK_POINT == "" || env.CHECK_POINT == stageName) {
+    if (env.CHECK_POINT == '' || env.CHECK_POINT == stageName) {
         checkSkipStage = false;
         return false;
     }
